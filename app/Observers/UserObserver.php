@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Mail\TestMail;
 use App\Models\User;
+use App\Jobs\SendMail;
 use Illuminate\Support\Facades\Mail;
 
 class UserObserver
@@ -29,6 +30,7 @@ class UserObserver
     public function updated(User $user)
     {
         Mail::to($user->email)->send(new TestMail($user));
+        
     }
 
     /**

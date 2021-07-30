@@ -44,5 +44,6 @@ Route::middleware(['isAdmin'])->group(function () {
     Route::get('/contacts/restore/{id}', [ContactController::class, 'restoreContact'])->name('contacts.restore');
     Route::Delete('/contacts/forceDelete/{id}', [ContactController::class, 'forceDelete'])->name('force.delete');
     Route::get('/contact/list', [ContactController::class, 'getData'])->name('contacts.list');
+    Route::post('/contact/submit-form', [ContactController::class, 'submitForm'])->name('form.submit');
 
 });

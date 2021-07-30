@@ -8,25 +8,6 @@
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-        <script type="text/javascript">
-            $(function () {
-
-                var table = $('.data-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('contacts.list') }}",
-                    columns: [
-                        {data: 'image', name: 'image'},
-                        {data: 'first_name', name: 'first_name'},
-                        {data: 'last_name', name: 'last_name'},
-                        {data: 'mobile_number', name: 'mobile_number'},
-                        {data: 'address', name: 'address'},
-                        {data: 'action', name: 'action', orderable: true, searchable: true},
-                    ]
-                });
-
-            });
-        </script>
 @endpush
 @section('content')
 <div class="container">
@@ -68,4 +49,23 @@
         </div>
 
     </div>
+        <script type="text/javascript">
+            $(function () {
+
+                var table = $('.data-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('contacts.list') }}",
+                    columns: [
+                        {data:'profilepic', name: 'profilepic',}, 
+                        {data: 'first_name', name: 'first_name'},
+                        {data: 'last_name', name: 'last_name'},
+                        {data: 'mobile_number', name: 'mobile_number'},
+                        {data: 'address', name: 'address'},
+                        {data: 'action', name: 'action', orderable: true, searchable: true},
+                    ] 
+                });
+
+            });
+        </script>
 @endsection

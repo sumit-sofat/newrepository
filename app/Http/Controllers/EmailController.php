@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 class EmailController extends Controller
 {
-    // public function updateConfirmation()
+    //  public function updateConfirmation()
     // {
-    //     $user= Auth::user()->email;
+    //      $user= Auth::user()->email;
 
     //     Mail::to($user)->send(new TestMail);
 

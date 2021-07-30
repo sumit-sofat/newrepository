@@ -11,18 +11,18 @@ use Illuminate\Queue\SerializesModels;
 use App\Mail\TestMail;
 use Mail;
 
-class SendEmailJob implements ShouldQueue
+class SendMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $users;
+    public $user;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($users)
+    public function __construct($user)
     {
-        $this->users = $users;
+        $this->user = $user;
     }
 
     /**
@@ -32,7 +32,7 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        return $this->subject('User Profile Updation')
-                    ->view('emails\updateConfirmation');
+        
     }
+    
 }

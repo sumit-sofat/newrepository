@@ -39,11 +39,18 @@ class ContactController extends Controller
     public function getData(Request $request)
     {
 
-        if ($request->ajax()) {
+        
             $data = Auth::user()->contacts->load('image');
-            dd($data->toarray());
+            
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('profilepic', function ($data) {
+                    if(isset($data) && !is_null($data['image'])){
+                        return '<img src="'. asset('uploads/contacts').'/'.$data['image']['image'] .'" alt="" height=50px; width=50px>';
+                    }
+                   
+
+                })
                 ->addColumn('action', function ($data) {
                     return '<a href="contacts/' . $data->id . '">View</a>
                              <a href="contacts/' . $data->id . '/edit">/Edit</a>
@@ -56,9 +63,9 @@ class ContactController extends Controller
                                         </form>';
 
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'profilepic'])
                 ->make(true);
-        }
+        
     }
 
     /**
@@ -79,23 +86,23 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
+        $file = $request->file('image');
         $formValues = $request->all();
         $formValues['user_id'] = Auth::id();
-
-        if ($file = $request->file('image')) {
+        
+        $contact = Contact::create($formValues);
+       
+        if ($file) {
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
             $file->move('uploads/contacts/', $filename);
 
-        }
-        // $formValues['image'] = $filename;
-        $contact = Contact::create($formValues);
+            $image = new Image();
+            $image->image = $filename;
 
-        $image = new Image();
-        $image->image = $filename;
-
-        $contact->image()->save($image);
-
+            $contact->image()->save($image);
+        }   
+        
         return redirect('contacts')->with('status', 'Contact added successfully.');
     }
 
@@ -107,7 +114,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-
+        
         return view('contacts.show', compact('contact'));
     }
 
@@ -172,4 +179,22 @@ class ContactController extends Controller
         return redirect('contacts?contact=onlyTrashed');
     }
 
+    public function submitForm(ContactRequest $request)
+    {
+        
+        $formSubmit = $request->all();
+        $file = $request->file('image');
+        $formSubmit['user_id'] = Auth::id();
+        $contacts = Contact::create($formSubmit);
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('uploads/contacts/', $filename);
+
+            $image = new Image();
+            $image->image = $filename;
+
+            $contact->image()->save($image);
+        }   
+    }
 }

@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TestMail extends Mailable
+class TestMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -30,6 +31,6 @@ class TestMail extends Mailable
     public function build()
     {
         return $this->subject('User Profile Updation')
-            ->view('emails\updateConfirmation');
+            ->view('emails.updateConfirmation');
     }
 }
